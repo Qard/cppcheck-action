@@ -6,8 +6,6 @@ import sys
 
 ENCODING = "utf-8"
 SCA_EXECUTOR = "cppcheck"
-DISPLAY_SCA_VERSION = True
-DISPLAY_SCA_HELP = True
 SOURCE_ROOT = "."
 
 # The following environment reads will fail execution if variables not set:
@@ -189,19 +187,8 @@ def display_sca_executor_help():
     return subprocess.run((SCA_EXECUTOR, "--help"), capture_output=True, check=False)
 
 
-def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
+def run(vector, where=SOURCE_ROOT):
     """Execute the command in a sub process."""
-    if show_version:
-        print("retrieving cppcheck version")
-        completed = display_sca_executor_version()
-        print(" ", completed.stdout.decode(ENCODING, errors="ignore").strip())
-
-    if show_help:
-        print("retrieving cppcheck help")
-        completed = display_sca_executor_help()
-        for line in completed.stdout.decode(ENCODING, errors="ignore").split("\n"):
-            print(" ", line)
-
     vector.append(f"{where}")
     print("executing static code analysis")
     print(f"  effective command: {' '.join(vector)}")
@@ -237,7 +224,7 @@ def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
 
 def main():
     """Drive the parameter extraction and execution of cppcheck."""
-    return run(command(), SOURCE_ROOT, DISPLAY_SCA_VERSION, DISPLAY_SCA_HELP)
+    return run(command(), SOURCE_ROOT)
 
 
 if __name__ == "__main__":
