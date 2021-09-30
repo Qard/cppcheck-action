@@ -158,6 +158,7 @@ def command(dsl=None, actions=None, checks_sep=CHECKS_SEP, constant_dimensions=C
     vector = [
         SCA_EXECUTOR,
         f"--enable={checks_sep.join(parse_checks(dsl))}",
+        f"--suppress=missingInclude,missingIncludeSystem"
     ]
 
     for dim in actions:
