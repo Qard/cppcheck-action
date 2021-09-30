@@ -73,7 +73,6 @@ FORCE = "INPUT_FORCE"
 INLINE_SUPPRESSION = "INPUT_INLINE_SUPPRESSION"
 ENFORCE_LANGUAGE = "INPUT_FORCE_LANGUAGE"
 MAX_CTU_DEPTH = "INPUT_MAX_CTU_DEPTH"
-OUTPUT_FILE = "INPUT_OUTPUT_FILE"
 PLATFORM_TYPE = "INPUT_PLATFORM"
 STD = "INPUT_STD"
 OTHER_OPTIONS = "INPUT_OTHER_OPTIONS"
@@ -90,7 +89,6 @@ DSL = {
     INLINE_SUPPRESSION: os.getenv(INLINE_SUPPRESSION, DISABLED),
     ENFORCE_LANGUAGE: os.getenv(ENFORCE_LANGUAGE, DISABLED),
     MAX_CTU_DEPTH: os.getenv(MAX_CTU_DEPTH, DISABLED),
-    OUTPUT_FILE: os.getenv(OUTPUT_FILE, "cppcheck_report.txt"),
     PLATFORM_TYPE: os.getenv(PLATFORM_TYPE, DISABLED),
     STD: os.getenv(STD, DISABLED),
     OTHER_OPTIONS: os.getenv(OTHER_OPTIONS, DISABLED),
@@ -204,8 +202,6 @@ def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
         for line in completed.stdout.decode(ENCODING, errors="ignore").split("\n"):
             print(" ", line)
 
-    if DSL[OUTPUT_FILE]:
-        vector.append(f"--output-file={DSL[OUTPUT_FILE]}")
     vector.append(f"{where}")
     print("executing static code analysis")
     print(f"  effective command: {' '.join(vector)}")
@@ -241,10 +237,6 @@ def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
 
 def main():
     """Drive the parameter extraction and execution of cppcheck."""
-    if DSL[OUTPUT_FILE]:
-        if all((GITHUB_EVENT_NAME == "pull_request", GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER)):
-            return 2
-
     return run(command(), SOURCE_ROOT, DISPLAY_SCA_VERSION, DISPLAY_SCA_HELP)
 
 
