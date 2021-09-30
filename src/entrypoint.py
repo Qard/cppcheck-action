@@ -204,7 +204,8 @@ def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
         for line in completed.stdout.decode(ENCODING, errors="ignore").split("\n"):
             print(" ", line)
 
-    vector.append(f"--output-file={DSL[OUTPUT_FILE]}")
+    if DSL[OUTPUT_FILE]:
+        vector.append(f"--output-file={DSL[OUTPUT_FILE]}")
     vector.append(f"{where}")
     print("executing static code analysis")
     print(f"  effective command: {' '.join(vector)}")
@@ -240,8 +241,9 @@ def run(vector, where=SOURCE_ROOT, show_version=False, show_help=False):
 
 def main():
     """Drive the parameter extraction and execution of cppcheck."""
-    if all((GITHUB_EVENT_NAME == "pull_request", GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER)):
-        return 2
+    if DSL[OUTPUT_FILE]:
+        if all((GITHUB_EVENT_NAME == "pull_request", GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER)):
+            return 2
 
     return run(command(), SOURCE_ROOT, DISPLAY_SCA_VERSION, DISPLAY_SCA_HELP)
 
