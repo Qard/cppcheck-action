@@ -66,7 +66,6 @@ CHECK_LIBRARY = "INPUT_CHECK_LIBRARY"
 SKIP_PREPROCESSOR = "INPUT_SKIP_PREPROCESSOR"
 ENABLE_CHECKS = "INPUT_ENABLE"
 EXCLUDE_CHECK = "INPUT_EXCLUDE_CHECK"
-ENABLE_INCONCLUSIVE = "INPUT_INCONCLUSIVE"
 FORCE = "INPUT_FORCE"
 INLINE_SUPPRESSION = "INPUT_INLINE_SUPPRESSION"
 ENFORCE_LANGUAGE = "INPUT_FORCE_LANGUAGE"
@@ -82,7 +81,6 @@ DSL = {
     SKIP_PREPROCESSOR: os.getenv(SKIP_PREPROCESSOR, DISABLED),
     ENABLE_CHECKS: os.getenv(ENABLE_CHECKS, CHECK_EVERYTHING),
     EXCLUDE_CHECK: os.getenv(EXCLUDE_CHECK, DISABLED),
-    ENABLE_INCONCLUSIVE: os.getenv(ENABLE_INCONCLUSIVE, ENABLED),
     FORCE: os.getenv(FORCE, DISABLED),
     INLINE_SUPPRESSION: os.getenv(INLINE_SUPPRESSION, DISABLED),
     ENFORCE_LANGUAGE: os.getenv(ENFORCE_LANGUAGE, DISABLED),
@@ -112,7 +110,6 @@ ACTIONS = {  # group by arity of actions to simplify processing below
     CHECK_LIBRARY: (operator.eq, ENABLED, "--check-library", None),
     SKIP_PREPROCESSOR: (operator.eq, ENABLED, "-E", None),
     INLINE_SUPPRESSION: (operator.eq, ENABLED, "--inline-suppr", None),
-    ENABLE_INCONCLUSIVE: (operator.ne, DISABLED, "--inconclusive", None),
     FORCE: (operator.ne, DISABLED, "--force", None),
     # unary actions:
     EXCLUDE_CHECK: (operator.ne, DISABLED, "-i{}", None),  # Newer versions of cppcheck (>1.9) do not accept a space here
